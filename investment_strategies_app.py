@@ -1,21 +1,34 @@
 import streamlit as st
 
-# === Lösenordsskydd ===
-st.set_page_config(page_title="Investeringsstrategier", layout="wide")
+# === Konfiguration ===
+st.set_page_config(page_title="Kvantitativa strategier", layout="wide")
 
-#correct_password = st.secrets.get("app_password", None)  # Läggs in i .streamlit/secrets.toml
-# hårdkodat, för att testa bara
-correct_password = "15gastar1flaskarom"
+# === Lösenordsskydd med sessionshantering ===
 
-password = st.text_input("🔒 Ange lösenord för att fortsätta", type="password")
+# Ange korrekt lösenord (hårdkodat eller via st.secrets)
+CORRECT_PASSWORD = "15gastar1flaskarom"
 
-if password != correct_password:
-    st.warning("Fel lösenord. Försök igen.")
+# === Sessionshantering ===
+if "authenticated" not in st.session_state:
+    st.session_state.authenticated = False
+
+# === Inloggning ===
+if not st.session_state.authenticated:
+    st.title("🔒 Kvantitativa strategier")
+    password = st.text_input("Ange lösenord för att fortsätta", type="password")
+
+    if password:
+        if password == CORRECT_PASSWORD:
+            st.session_state.authenticated = True
+            st.rerun()
+        else:
+            st.error("Fel lösenord.")
     st.stop()
-    
-st.set_page_config(page_title="Investeringsstrategier", layout="wide")
 
-st.title("📊 Investeringsstrategier")
+# === Huvudinnehåll visas först EFTER inloggning ===
+st.markdown("<h1 style='font-size: 1.8em;'>📊 Kvantitativa strategier</h1>", unsafe_allow_html=True)
+
+# --- Din app börjar här ---
 
 # === Sidomeny ===
 menu = st.sidebar.radio(
