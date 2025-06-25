@@ -3,7 +3,10 @@ import streamlit as st
 # === Lösenordsskydd ===
 st.set_page_config(page_title="Investeringsstrategier", layout="wide")
 
-correct_password = st.secrets.get("app_password", None)  # Läggs in i .streamlit/secrets.toml
+#correct_password = st.secrets.get("app_password", None)  # Läggs in i .streamlit/secrets.toml
+# hårdkodat, för att testa bara
+correct_password = "15gastar1flaskarom"
+
 password = st.text_input("🔒 Ange lösenord för att fortsätta", type="password")
 
 if password != correct_password:
